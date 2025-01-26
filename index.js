@@ -42,14 +42,14 @@ app.post("/create-acc", async (req, res) => {
         return res.status(400).json({error: true, message:"Password is required"})
     }
 
-    const isUser = User.findOne({ email : email })
-
-    // if (isUser){
-    //     return res.json({
-    //         error: true,
-    //         message: "User already exists",
-    //     })
-    // }
+    const isUser = await User.findOne({ email : email })
+    console.log(isUser)
+    if (isUser){
+        return res.status(400).json({
+            error: true,
+            message: "User already exists",
+        })
+    }
 
     const user = new User ({
         fullName,
@@ -70,7 +70,7 @@ app.post("/create-acc", async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: true, message: error.message });
     }
-
+    console.log("User created successfully:", user);
     return res.json({
         error:false,
         user,
@@ -212,7 +212,7 @@ app.get("/get-all-notes", authenticateToken, async (req, res) =>{
         }
     })
 
-app.delete("/delete-notes/:noteId", authenticateToken, async (req, res) =>{
+app.delete("/delete-note/:noteId", authenticateToken, async (req, res) =>{
     const noteId = req.param.noteId;
     const { user } = req.user;
 
