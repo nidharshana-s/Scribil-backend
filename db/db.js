@@ -11,3 +11,7 @@ const db = async () => {
 }
 
 module.exports = { db };
+
+
+// backend 8000
+// frontend http://localhost:5173/
