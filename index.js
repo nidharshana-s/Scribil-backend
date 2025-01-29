@@ -27,7 +27,7 @@ app.use(
 app.get("/", (req,res) => {
     res.json({data: "hello"})
 })
-
+//create account route
 app.post("/create-acc", async (req, res) => {
     const {fullName, email, password} = req.body;
     if (!fullName){
