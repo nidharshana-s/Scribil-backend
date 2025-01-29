@@ -43,7 +43,7 @@ app.post("/create-acc", async (req, res) => {
     }
 
     const isUser = await User.findOne({ email : email })
-    console.log(isUser)
+    //console.log(isUser)
     if (isUser){
         return res.status(400).json({
             error: true,
@@ -64,12 +64,21 @@ app.post("/create-acc", async (req, res) => {
         if (!process.env.SECRET_KEY) {
             throw new Error("SECRET_KEY is not defined");
         }
-        accessToken = jwt.sign({user}, process.env.SECRET_KEY, {
+        accessToken = jwt.sign({name:user.fullName,pass:user.password}, process.env.SECRET_KEY, {
             expiresIn : "30000m",
         });
+        console.log(accessToken)
     } catch (error) {
         return res.status(500).json({ error: true, message: error.message });
     }
+
+    // console.log("Server Response:", {
+    //     error: false,
+    //     user,
+    //     accessToken,
+    //     message: "Registration Successful"
+    // });
+
     //console.log("User created successfully:", user);
     return res.json({
         error:false,
